@@ -75,7 +75,12 @@ namespace GetTypeToNameOf
             var toReplaceNode = SyntaxFactory.ParseExpression(prefer);
 
             var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-            var newRoot = oldRoot.ReplaceNode(subjectNode, toReplaceNode);
+            var newRoot = oldRoot.ReplaceNode(
+                subjectNode,
+                toReplaceNode
+                    .WithLeadingTrivia(subjectNode.GetLeadingTrivia())
+                    .WithTrailingTrivia(subjectNode.GetTrailingTrivia())
+                );
 
             // Return document with transformed tree.
             return document.WithSyntaxRoot(newRoot).Project.Solution;

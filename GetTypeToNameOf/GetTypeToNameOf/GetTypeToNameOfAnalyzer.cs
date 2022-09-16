@@ -147,7 +147,7 @@ namespace GetTypeToNameOf
                     {
                         [PreferPropertyName] = prefer
                     }.ToImmutableDictionary(),
-                    maes.ToFullString(),
+                    maes.WithoutTrivia().ToFullString(),
                     prefer
                     );
         }

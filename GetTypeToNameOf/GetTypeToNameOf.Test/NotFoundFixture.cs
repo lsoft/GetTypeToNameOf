@@ -141,5 +141,65 @@ namespace GetTypeToNameOf.Test
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
+        [TestMethod]
+        public async Task OtherClassMethod_GetType_Test()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        sealed class MyClass
+        {
+            public void Log()
+            {
+                var s = ""123"";
+                Console.WriteLine({|#0:s.GetType().Name|});
+            }
+        }
+    }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
+        }
+
+        [TestMethod]
+        public async Task OtherStaticClassMethod_GetType_Test()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        sealed class MyClass
+        {
+            public void Log()
+            {
+                Console.WriteLine({|#0:OtherClass.GetType().Name|});
+            }
+        }
+
+        static class OtherClass
+        {
+            public static FakeStruct GetType() => new FakeStruct { Name = ""fake"" };
+        }
+
+        struct FakeStruct
+        {
+            public string Name;
+        }
+    }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
+        }
     }
 }

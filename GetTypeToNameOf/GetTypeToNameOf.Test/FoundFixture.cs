@@ -24,7 +24,9 @@ namespace GetTypeToNameOf.Test
     {
         sealed class MyClass
         {
-            public void Log() => Console.WriteLine({|#0:this.GetType().Name|});
+            public void Log() => Console.WriteLine(
+                {|#0:this.GetType().Name|}
+                );
         }
     }";
 
@@ -40,7 +42,9 @@ namespace GetTypeToNameOf.Test
     {
         sealed class MyClass
         {
-            public void Log() => Console.WriteLine(nameof(MyClass));
+            public void Log() => Console.WriteLine(
+                nameof(MyClass)
+                );
         }
     }";
 
